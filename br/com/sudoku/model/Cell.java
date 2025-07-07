@@ -2,28 +2,47 @@ package br.com.sudoku.model;
 
 public class Cell {
     
-    private int value;  // 0 para vazio, 1-9 para preenchido
-    private final boolean fixedByGame; // número iniciado pelo jogo
+ 
+    private final int row;
+    private final int col;
+    private int value;
+    private final boolean isFixedByGame;
 
-    public Cell(int value, boolean fixedByGame) {
-        if (value < 0 || value > 9) {
-            throw new IllegalArgumentException("Valor deve estar entre 0 e 9");
+    public Cell(int row, int col, int value, boolean isFixedByGame) {
+        if (row < 0 || row > 8) {
+            throw new IllegalArgumentException("Linha deve ser entre 0 e 8.");
         }
-        this.fixedByGame = fixedByGame;
-        this.value = value; // Atribui o valor inicial diretamente, com validação prévia
+        if (col < 0 || col > 8) {
+            throw new IllegalArgumentException("Coluna deve ser entre 0 e 8.");
+        }
+        if (value < 0 || value != 0 && value > 9) { // Aceita 0 (vazio) ou 1 a 9
+            throw new IllegalArgumentException("O valor deve ser 0 (vazio) ou entre 1 e 9.");
+        }
+        this.row = row;
+        this.col = col;
+        this.value = value;
+        this.isFixedByGame = isFixedByGame;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
     }
 
     public int getValue() {
         return value;
     }
 
-    public void setValue(int value) { // Usado para alterações posteriores
-        if (!fixedByGame && value >= 0 && value <= 9) {
-            this.value = value;
-        }
+    public boolean isFixedByGame() {
+        return isFixedByGame;
     }
 
-    public boolean isFixedByGame() {
-        return fixedByGame;
-    }
+    public void setValue(int value) { // Usado para alterações posteriores
+        if (!isFixedByGame && (value == 0 || value >= 1 && value <= 9)) {
+            this.value = value;
+        }
+}
 }
