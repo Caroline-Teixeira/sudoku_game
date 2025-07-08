@@ -79,7 +79,7 @@ public class BoardService {
 
     // Métodos para verificar conflitos
     private boolean isConflictingWithOthers(Cell currentCell, List<Cell> otherCells) {
-    return otherCells.stream()
+    return otherCells.stream() //to do: verificar v e f
             .filter(otherCell -> currentCell != otherCell && currentCell.getValue() == otherCell.getValue()) // Não compara com a própria célula, e considera apenas células com o mesmo valor
             .anyMatch(otherCell ->
                     currentCell.getRow() == otherCell.getRow() || // mesma linha
@@ -94,7 +94,7 @@ public class BoardService {
                 .filter(cell -> cell.getValue() != 0)
                 .toList();
 
-        return filledCells.stream()
+        return filledCells.stream() // to do: verificar v ou f 
                 .anyMatch(currentCell -> isConflictingWithOthers(currentCell, filledCells)); 
 }
 
@@ -114,5 +114,8 @@ public class BoardService {
 
         String formattedBoard = String.format(BoardTemplate.BOARD_TEMPLATE, (Object[]) values); // Formata o tabuleiro usando o template
         System.out.println(formattedBoard);
+
+        // Depuração: Verifica as células carregadas
+        System.out.println("Células no tabuleiro (depuração): " + board.getCells().size());
     }
 }
