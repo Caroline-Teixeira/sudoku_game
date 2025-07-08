@@ -1,12 +1,16 @@
 package br.com.sudoku.view;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 import br.com.sudoku.model.Cell;
+import br.com.sudoku.model.InvalidMoveException;
 import br.com.sudoku.model.SudokuGame;
 import br.com.sudoku.service.SudokuGameService;
+
+import br.com.sudoku.util.ConsolePrinter;
 
 public class Menu {
 
@@ -21,10 +25,10 @@ public class Menu {
     }
 
     public void start() {
-        
-
+    
 
         while (true) {
+            
             System.out.println("=== Menu do Jogo Sudoku ===");
             System.out.println("1. Iniciar Jogo");
             System.out.println("2. Adicionar Célula");
@@ -34,9 +38,10 @@ public class Menu {
             System.out.println("===========================");
             System.out.println("Escolha uma opção (1-5): ");
             
-            int option = scanner.nextInt();
-            scanner.nextLine();
-
+            
+            try {
+            String input = scanner.nextLine().trim();
+            int option = Integer.parseInt(input);
             switch (option) {
                 case 1 -> {
                     startGame();
@@ -56,16 +61,18 @@ public class Menu {
                 }
                 
                 case 5 -> {
-                    System.out.println("Saindo do jogo...");
+                    ConsolePrinter.printWarning("Saindo...");
                     scanner.close();
                     return;
                 }
-                default -> System.out.println("Opção inválida! Tente novamente.");
+                default -> ConsolePrinter.printError("Opção inválida! Tente novamente.");
                     
             }
-
         }
-
+        catch (NumberFormatException e) {
+            ConsolePrinter.printError("Erro: A entrada deve ser um número válido.");
+            }
+        }
     }
     // Início
     private void startGame(){
@@ -75,52 +82,73 @@ public class Menu {
         initialCells.add(new Cell(1, 0, 6, true));
 
         service.startGame(initialCells);
-        System.out.println("Novo jogo. Status do jogo: " + service.getStatusNow());
+        ConsolePrinter.printSuccess("Novo jogo");
+        ConsolePrinter.printInfo("Status do jogo: " + service.getStatusNow());
 
     }
 
     // nova célula
     private void addCell() {
-        System.out.print("Digite uma linha (0-8): ");
-        int row = scanner.nextInt();
-        System.out.print("Digite uma coluna (0-8): ");
-        int col = scanner.nextInt();
-        System.out.print("Número a inserir na célula (1-9): ");
-        int value = scanner.nextInt();
-        scanner.nextLine(); 
-
         try {
+            System.out.print("Digite uma linha (0-8): ");
+            int row = scanner.nextInt();
+            System.out.print("Digite uma coluna (0-8): ");
+            int col = scanner.nextInt();
+            System.out.print("Número a inserir na célula (1-9): ");
+            int value = scanner.nextInt();
+            scanner.nextLine(); 
+
+        
             Cell cell = new Cell(row, col, value, false);  // se a célua é inserida pelo jogador
             service.addCell(cell);
-            System.out.println("Célula adicionada. Status do Jogo: " + service.getStatusNow());
+            ConsolePrinter.printSuccess("Célula adicionada.");
+            ConsolePrinter.printInfo("Status do jogo: " + service.getStatusNow());
 
-        } catch (IllegalArgumentException e) {
-            System.out.println("Erro: " + e.getMessage());
+        } 
+        
+
+        catch (InputMismatchException e) {
+            ConsolePrinter.printError("Erro: Digite apenas números válidos!");
+            scanner.nextLine(); }
+
+        catch (InvalidMoveException e){
+            ConsolePrinter.printError("Erro: " + e.getMessage());
+
         }
     }
 
     // remover célula
     private void removeCell(){
-        System.out.print("Digite uma linha (0-8): ");
-        int row = scanner.nextInt();
-        System.out.print("Digite uma coluna (0-8): ");
-        int col = scanner.nextInt();
-        scanner.nextLine(); 
-
         try{
+            System.out.print("Digite uma linha (0-8): ");
+            int row = scanner.nextInt();
+            System.out.print("Digite uma coluna (0-8): ");
+            int col = scanner.nextInt();
+            scanner.nextLine(); 
+
+        
             service.removeCell(row, col);
-            System.out.println("Célula removida com sucesso. Status do jogo: " + service.getStatusNow());
+            ConsolePrinter.printSuccess("Célula removida com sucesso.");
+            ConsolePrinter.printInfo("Status do jogo: " + service.getStatusNow());
             
-        } catch (IllegalArgumentException e){
-            System.out.println("Erro: " + e.getMessage());
+        } 
+        catch (InputMismatchException e) {
+            ConsolePrinter.printError("Erro: Digite apenas números válidos!");
+            scanner.nextLine(); }
+
+        catch (InvalidMoveException e){
+            ConsolePrinter.printError("Erro: " + e.getMessage());
 
         }
+        
+        
     }
 
     // remover entradas do usuário
     private void clearUserInputs(){
         service.clearUserInputs();
-        System.out.println("Tabuleiro limpo. Status do jogo: " + service.getStatusNow());
+        ConsolePrinter.printWarning("Tabuleiro limpo.");
+        ConsolePrinter.printInfo("Status do jogo: " + service.getStatusNow());
 
     }
 

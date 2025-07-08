@@ -8,6 +8,7 @@ import br.com.sudoku.model.Board;
 import br.com.sudoku.model.Cell;
 import br.com.sudoku.model.InvalidMoveException;
 import br.com.sudoku.model.Position;
+import br.com.sudoku.util.AnsiColors;
 import br.com.sudoku.util.BoardTemplate;
 
 public class BoardService {
@@ -106,16 +107,30 @@ public class BoardService {
             .mapToObj(i -> {
                 int row = i / 9; // Calcula a linha (0 a 8)
                 int col = i % 9; // Calcula a coluna (0 a 8); % para reiniciar a contagem de colunas após 9 
+                
                 Optional<Cell> cell = findCell(row, col); // Busca a célula na posição (linha, coluna)
-                int value = cell.isPresent() ? cell.get().getValue() : 0; // Se a célula existir, pega o valor, senão, usa 0
-                return value == 0 ? " " : String.valueOf(value); // Se o valor for 0, usa espaço em branco
-            })
+                
+                if (cell.isPresent()) { // Verifica se a célula existe
+                Cell c = cell.get();     //
+                if (c.getValue() == 0) {  // Se o valor da célula for 0, retorna um espaço em branco
+                    return " ";
+                    }
+                    if (c.isFixedByGame()) {  // Se a célula é fixa, retorna o valor em verde
+                        return AnsiColors.GREEN + c.getValue() + AnsiColors.RESET;
+                    } else {
+                        return String.valueOf(c.getValue()); // Se a célula não é fixa, retorna o valor normal
+                    }
+            } 
+            else {
+                return " "; // Se a célula não existe, retorna um espaço em branco
+            }
+        })
             .toArray(size -> new String[size]); // Converte o IntStream em um array de Strings 
 
         String formattedBoard = String.format(BoardTemplate.BOARD_TEMPLATE, (Object[]) values); // Formata o tabuleiro usando o template
         System.out.println(formattedBoard);
 
         // Depuração: Verifica as células carregadas
-        System.out.println("Células no tabuleiro (depuração): " + board.getCells().size());
+        //System.out.println("Células no tabuleiro (depuração): " + board.getCells().size());
     }
 }
