@@ -80,7 +80,7 @@ public class BoardService {
 
     // Métodos para verificar conflitos
     private boolean isConflictingWithOthers(Cell currentCell, List<Cell> otherCells) {
-    return otherCells.stream() //to do: verificar v e f
+    return otherCells.stream() //to do: adicionar condição (jogada válida: não pode numeros repetidos)
             .filter(otherCell -> currentCell != otherCell && currentCell.getValue() == otherCell.getValue()) // Não compara com a própria célula, e considera apenas células com o mesmo valor
             .anyMatch(otherCell ->
                     currentCell.getRow() == otherCell.getRow() || // mesma linha
@@ -95,7 +95,7 @@ public class BoardService {
                 .filter(cell -> cell.getValue() != 0)
                 .toList();
 
-        return filledCells.stream() // to do: verificar v ou f 
+        return filledCells.stream() // to do: (jogada válida: não pode numeros repetidos) 
                 .anyMatch(currentCell -> isConflictingWithOthers(currentCell, filledCells)); 
 }
 
