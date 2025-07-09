@@ -52,6 +52,15 @@ public class BoardService {
         if (existingCell != null && existingCell.isFixedByGame())
             throw new InvalidMoveException("Não é possível sobrescrever um número fixo.");
 
+        // Verifica conflitos antes de adicionar a célula
+        List<Cell> filledCells = board.getCells().values().stream()
+                .filter(c -> c.getValue() != 0)
+                .toList();
+
+        if (isConflictingWithOthers(cell, filledCells)) {
+            throw new InvalidMoveException("Jogada inválida: não é permitido repetir números na mesma linha, coluna ou bloco 3x3.");
+        }
+            
         board.getCells().put(position, cell);
     }
 
