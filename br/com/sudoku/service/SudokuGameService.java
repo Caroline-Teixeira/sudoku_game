@@ -1,5 +1,6 @@
 package br.com.sudoku.service;
 
+import br.com.sudoku.gui.GameStatusListener;
 import br.com.sudoku.model.Board;
 import br.com.sudoku.model.Cell;
 import br.com.sudoku.model.GameStatus;
@@ -12,12 +13,20 @@ public class SudokuGameService {
 
   private final SudokuGame game;
   private final BoardService boardService;
+  private GameStatusListener gameListener; //para informar a interface
 
   // Construtor
   public SudokuGameService(SudokuGame game) {
     this.game = game;
     this.boardService = new BoardService(game.getBoard()); // Inicializa o serviço de tabuleiro
   }
+
+
+  // listener
+  public void setStatusListener(GameStatusListener listener) {
+        this.gameListener = listener;
+    }
+
 
   // Método para iniciar o jogo
   public void startGame(List<Cell> initialCells) {
@@ -50,7 +59,15 @@ public class SudokuGameService {
     } else {
       game.setStatus(GameStatus.INCOMPLETO);
     }
+
+      notifyStatus(); // status para o listener
   }
+
+  private void notifyStatus() {
+    if (gameListener != null) {
+            gameListener.onStatusChanged("Status: " + game.getStatus());
+  }
+}
 
   // Método para adicionar uma célula
   public void addCell(Cell cell) {
@@ -73,4 +90,18 @@ public class SudokuGameService {
   public void printGame() {
     boardService.printBoard();
   }
+
+
+  // para interface grafica
+    public boolean hasConflict() {
+        return boardService.hasConflict();
+    }
+
+    
+    public Board getBoard() {
+        return game.getBoard();
+    }
+
+
+  
 }

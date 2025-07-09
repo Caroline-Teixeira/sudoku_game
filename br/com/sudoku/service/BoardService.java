@@ -57,9 +57,10 @@ public class BoardService {
                 .filter(c -> c.getValue() != 0)
                 .toList();
 
-        if (isConflictingWithOthers(cell, filledCells)) {
-            throw new InvalidMoveException("Jogada inválida: não é permitido repetir números na mesma linha, coluna ou bloco 3x3.");
-        }
+        String conflict = isConflictingWithOthers(cell, filledCells); // verifica se há conflitos com outras células preenchidas
+            if (conflict != null) {
+                throw new InvalidMoveException(conflict);
+            }
             
         board.getCells().put(position, cell);
     }
@@ -87,16 +88,28 @@ public class BoardService {
         board.getCells().clear(); // limpa o tabuleiro, (configuração inicial, apenas para esta classe)
     }
 
+    
+
     // Métodos para verificar conflitos
-    private boolean isConflictingWithOthers(Cell currentCell, List<Cell> otherCells) {
-    return otherCells.stream() //to do: adicionar condição (jogada válida: não pode numeros repetidos)
+    private String isConflictingWithOthers(Cell currentCell, List<Cell> otherCells) {
+    return otherCells.stream() 
             .filter(otherCell -> currentCell != otherCell && currentCell.getValue() == otherCell.getValue()) // Não compara com a própria célula, e considera apenas células com o mesmo valor
-            .anyMatch(otherCell ->
-                    currentCell.getRow() == otherCell.getRow() || // mesma linha
-                    currentCell.getCol() == otherCell.getCol() ||   // mesma coluna
-                    (currentCell.getRow() / 3 == otherCell.getRow() / 3 && // mesmo bloco 3x3
-                     currentCell.getCol() / 3 == otherCell.getCol() / 3)
-            ); // divisão por 3 
+            .map(otherCell -> {
+                if (currentCell.getRow() == otherCell.getRow()) 
+                    return "Número repetido na mesma linha.";
+                
+                if (currentCell.getCol() == otherCell.getCol()) 
+                    return "Número repetido na mesma coluna.";
+            
+                if (currentCell.getRow() / 3 == otherCell.getRow() / 3 && 
+                    currentCell.getCol() / 3 == otherCell.getCol() / 3)
+                    return "Número repetido no mesmo bloco 3x3.";
+                
+                return null; // se não houver conflitos
+            })
+            .filter(message -> message != null) // filtra mensagens não nulas
+            .findFirst() // retorna a primeira mensagem de conflito encontrada
+            .orElse(null); // se não houver conflitos, retorna null
     }
 
     public boolean hasConflict() {
@@ -105,7 +118,7 @@ public class BoardService {
                 .toList();
 
         return filledCells.stream() // to do: (jogada válida: não pode numeros repetidos) 
-                .anyMatch(currentCell -> isConflictingWithOthers(currentCell, filledCells)); 
+                .anyMatch(currentCell -> isConflictingWithOthers(currentCell, filledCells) != null); 
 }
 
     // Método para imprimir
