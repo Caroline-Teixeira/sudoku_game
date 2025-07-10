@@ -11,6 +11,7 @@ public class BoardGrid extends JPanel {
 
     private final JButton[][] cells; // para matriz
     private final SudokuGameService gameService;
+    private boolean gameStarted = false; // Flag para indicar se o jogo foi iniciado
 
     public BoardGrid(SudokuGameService gameService) {
         this.cells = new JButton[9][9];
@@ -66,6 +67,7 @@ public class BoardGrid extends JPanel {
             int finalCol = col;
             button.addActionListener(e -> cellClick(finalRow, finalCol));
 
+            button.setEnabled(false); // Desabilita os botões inicialmente
             cells[row][col] = button;
             add(button);
         }
@@ -74,6 +76,11 @@ public class BoardGrid extends JPanel {
     
     // Método chamado ao clicar em uma célula
     private void cellClick(int row, int col) {
+        if (!gameStarted) {
+            JOptionPane.showMessageDialog(this, "Inicie um novo jogo primeiro.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         // Verifica se a célula é fixa
         Cell cell = gameService.getBoard().getCells().get(new br.com.sudoku.model.Position(row, col)); // endereço do Position
         if (cell != null && cell.isFixedByGame()) {
@@ -107,7 +114,7 @@ public class BoardGrid extends JPanel {
     for (int i = 0; i < 81; i++) {
         int row = i / 9;
         int col = i % 9;
-        
+
         Cell cell = gameService.getBoard().getCells().get(new br.com.sudoku.model.Position(row, col));
         JButton button = cells[row][col];
         if (cell != null && cell.getValue() != 0) {
@@ -118,5 +125,17 @@ public class BoardGrid extends JPanel {
             button.setBackground(Color.WHITE);
             }
         }
-    }
+    
+    
+    // Verifica se o jogo foi iniciado e habilita os botões
+        gameStarted = !gameService.getBoard().getCells().isEmpty();
+        for (int i = 0; i < 81; i++) {
+            cells[i / 9][i % 9].setEnabled(gameStarted);
+        }
+           
+    // Verifica se o jogo está completo e exibe o pop-up de vitória
+        if (gameService.getStatusNow() == br.com.sudoku.model.GameStatus.COMPLETO) {
+            JOptionPane.showMessageDialog(this, "Você finalizou o jogo, parabéns!", "Vitória", JOptionPane.INFORMATION_MESSAGE);
+        }
+}
 }

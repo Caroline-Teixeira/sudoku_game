@@ -39,10 +39,4 @@ public class SudokuWindow extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            SudokuWindow window = new SudokuWindow();
-            window.setVisible(true);
-        });
-    }
 }
