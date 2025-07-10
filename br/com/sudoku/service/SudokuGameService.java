@@ -15,6 +15,7 @@ public class SudokuGameService {
   private final BoardService boardService;
   private GameStatusListener gameListener; //para informar a interface
 
+
   // Construtor
   public SudokuGameService(SudokuGame game) {
     this.game = game;
@@ -63,6 +64,7 @@ public class SudokuGameService {
       notifyStatus(); // status para o listener
   }
 
+  // para listener
   private void notifyStatus() {
     if (gameListener != null) {
             gameListener.onStatusChanged("Status: " + game.getStatus());
@@ -86,6 +88,18 @@ public class SudokuGameService {
     boardService.clearUserInputs();
     updateGameStatus();
   }
+
+  // Método para salvar o jogo
+  public void saveGame(String filePath) {
+    boardService.saveGameFile(filePath);
+}
+
+  // Método para carregar o jogo
+  public void loadGame(String filePath) {
+    boardService.loadGameFile(filePath);
+    updateGameStatus(); // Atualiza o status após carregar o jogo
+  }
+
 
   public void printGame() {
     boardService.printBoard();

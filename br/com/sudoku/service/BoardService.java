@@ -1,5 +1,10 @@
 package br.com.sudoku.service;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -120,6 +125,43 @@ public class BoardService {
         return filledCells.stream() // to do: (jogada válida: não pode numeros repetidos) 
                 .anyMatch(currentCell -> isConflictingWithOthers(currentCell, filledCells) != null); 
 }
+
+    // Salvar jogo
+    public void saveGameFile(String filePath) {
+    try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+        board.getCells().forEach((position, cell) -> {
+            writer.printf("%d,%d,%d,%b%n",
+                position.row(),
+                position.col(),
+                cell.getValue(),
+                cell.isFixedByGame());
+        });
+    } catch (IOException e) {
+        throw new RuntimeException("Erro ao salvar o jogo: " + e.getMessage());
+    }
+}
+
+    // Carregar jogo
+    public void loadGameFile(String filePath) {
+    resetBoard();
+    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        reader.lines()
+            .map(line -> line.split(","))
+            .forEach(parts -> {
+                int row = Integer.parseInt(parts[0]);
+                int col = Integer.parseInt(parts[1]);
+                int value = Integer.parseInt(parts[2]);
+                boolean isFixed = Boolean.parseBoolean(parts[3]);
+                Position pos = new Position(row, col);
+                board.getCells().put(pos, new Cell(row, col, value, isFixed));
+            });
+    } catch (IOException e) {
+        throw new RuntimeException("Erro ao carregar o jogo: " + e.getMessage());
+    }
+}
+
+
+
 
     // Método para imprimir
     public void printBoard(){
