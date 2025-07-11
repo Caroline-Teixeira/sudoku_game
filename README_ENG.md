@@ -10,7 +10,9 @@
 This project is a **Sudoku Game** developed in **Java 21** with a graphical interface using **Swing**, organized in layers and with dependency management via **Maven**.
 
 The game features automatic valid board generation via `SudokuSolver`, save and load game functionality via notepad, and a control panel with action buttons. 
-To understand the mathematics logic access the file Math.md.
+To understand the mathematics logic access the file 
+<a href="https://github.com/Caroline-Teixeira/sudoku_game/blob/main/Math.md">Math.md.</a>
+
 
 ## 🎯 Features
 
