@@ -12,7 +12,9 @@
 Este projeto é um **Jogo de Sudoku** desenvolvido em **Java 21** com interface gráfica usando **Swing**, organizado em camadas e com gerenciamento de dependências via **Maven**.
 
 O jogo possui geração automática de tabuleiro válido via `SudokuSolver`, salvamento e carregamento de partidas via bloco de notas e um painel de controle com botões de ação.
-Para entender a lógica matemática acesse o arquivo Matematica.md
+Para entender a lógica matemática acesse o arquivo 
+<a href="https://github.com/Caroline-Teixeira/sudoku_game/blob/main/Matematica.md">Matematica.md</a>
+
 
 ## 🎯 Funcionalidades
 
