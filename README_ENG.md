@@ -8,6 +8,7 @@
 ## 📖 Description
 
 This project is a **Sudoku Game** developed in **Java 21** with a graphical interface using **Swing**, organized in layers and with dependency management via **Maven**.
+<a href="https://www.linkedin.com/posts/caroline-francieli-teixeira-05a56b266_java-swing-maven-activity-7349500214354837504-9pHx?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEE5DIYBUFEM9BE7AK3ObchKODr8J0Slyrc">Video</a>
 
 The game features automatic valid board generation via `SudokuSolver`, save and load game functionality via notepad, and a control panel with action buttons. 
 To understand the mathematics logic access the file 
