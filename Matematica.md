@@ -1,5 +1,7 @@
 # 📊 Matemática por Trás do Sudoku Game em Java
 
+<a href="https://github.com/Caroline-Teixeira/sudoku_game/blob/main/Math.md"><img src="https://raw.githubusercontent.com/yammadev/flag-icons/refs/heads/master/png/US%402x.png" alt="Inglês" ></a>
+
 Este documento explica, de forma didática e com exemplos visuais, a matemática utilizada para verificar conflitos e determinar a posição de células em blocos no **Sudoku Game em Java**.
 
 ---
