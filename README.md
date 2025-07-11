@@ -5,11 +5,14 @@
 ![Swing GUI](https://img.shields.io/badge/Swing-Interface%20Gr%C3%A1fica-blueviolet?style=for-the-badge)
 ![Maven](https://img.shields.io/badge/Maven-Build%20Tool-important?style=for-the-badge&logo=apachemaven)
 
+<a href="https://github.com/Caroline-Teixeira/vida_plus/blob/main/README_ENG.md"><img src="https://raw.githubusercontent.com/yammadev/flag-icons/refs/heads/master/png/US%402x.png" alt="Inglês" ></a>
+
 ## 📖 Descrição
 
 Este projeto é um **Jogo de Sudoku** desenvolvido em **Java 21** com interface gráfica usando **Swing**, organizado em camadas e com gerenciamento de dependências via **Maven**.
 
 O jogo possui geração automática de tabuleiro válido via `SudokuSolver`, salvamento e carregamento de partidas via bloco de notas e um painel de controle com botões de ação.
+Para entender a lógica matemática acesse o arquivo Matematica.md
 
 ## 🎯 Funcionalidades
 
