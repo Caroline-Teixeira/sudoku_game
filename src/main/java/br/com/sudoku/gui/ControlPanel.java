@@ -7,9 +7,7 @@ import br.com.sudoku.service.SudokuGameService;
 import br.com.sudoku.service.strategy.DifficultyStrategy;
 import br.com.sudoku.util.SudokuSolver;
 import java.awt.*;
-
 import java.util.List;
-
 import javax.swing.*;
 
 public class ControlPanel extends JPanel {
@@ -81,10 +79,10 @@ public class ControlPanel extends JPanel {
 
     DifficultyLevel level =
       switch (choice) {
-        case 0 -> DifficultyLevel.EASY;
-        case 1 -> DifficultyLevel.MEDIUM;
-        case 2 -> DifficultyLevel.HARD;
-        default -> DifficultyLevel.EASY;
+        case 0 -> DifficultyLevel.FACIL;
+        case 1 -> DifficultyLevel.MEDIO;
+        case 2 -> DifficultyLevel.DIFICIL;
+        default -> DifficultyLevel.FACIL;
       };
 
     ConfigurationManager.getInstance().setDifficultyLevel(level);

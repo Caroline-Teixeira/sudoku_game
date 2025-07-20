@@ -1,5 +1,7 @@
 package br.com.sudoku.service;
 
+import br.com.sudoku.core.ConfigurationManager;
+import br.com.sudoku.core.DifficultyLevel;
 import br.com.sudoku.gui.GameStatusListener;
 import br.com.sudoku.model.Board;
 import br.com.sudoku.model.Cell;
@@ -66,10 +68,11 @@ public class SudokuGameService {
 
   // para listener
   private void notifyStatus() {
-    if (gameListener != null) {
-            gameListener.onStatusChanged("Status: " + game.getStatus());
-  }
-}
+        if (gameListener != null) {
+            DifficultyLevel difficulty = ConfigurationManager.getInstance().getDifficultyLevel();
+            gameListener.onStatusChanged(game.getStatus().toString(), difficulty);
+        }
+    }
 
   // Método para adicionar uma célula
   public void addCell(Cell cell) {

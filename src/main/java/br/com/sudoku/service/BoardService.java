@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import br.com.sudoku.core.ConfigurationManager;
+import br.com.sudoku.core.DifficultyLevel;
 import br.com.sudoku.model.Board;
 import br.com.sudoku.model.Cell;
 import br.com.sudoku.model.InvalidMoveException;
@@ -122,13 +124,18 @@ public class BoardService {
                 .filter(cell -> cell.getValue() != 0)
                 .toList();
 
-        return filledCells.stream() // to do: (jogada válida: não pode numeros repetidos) 
+        return filledCells.stream() 
                 .anyMatch(currentCell -> isConflictingWithOthers(currentCell, filledCells) != null); 
 }
 
     // Salvar jogo
     public void saveGameFile(String filePath) {
     try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+        
+        DifficultyLevel difficulty = ConfigurationManager.getInstance().getDifficultyLevel();
+            writer.println(difficulty != null ? difficulty.toString() : "UNKNOWN");
+        
+        
         board.getCells().forEach((position, cell) -> {
             writer.printf("%d,%d,%d,%b%n",
                 position.row(),
@@ -145,6 +152,19 @@ public class BoardService {
     public void loadGameFile(String filePath) {
     resetBoard();
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        
+        String difficultyLine = reader.readLine();
+            if (difficultyLine != null && !difficultyLine.isEmpty()) {
+                try {
+                    DifficultyLevel difficulty = DifficultyLevel.valueOf(difficultyLine);
+                    ConfigurationManager.getInstance().setDifficultyLevel(difficulty);
+                } catch (IllegalArgumentException e) {
+                    // Se a dificuldade não for válida, mantém a padrão
+                    ConfigurationManager.getInstance().setDifficultyLevel(DifficultyLevel.FACIL);
+                }
+            }
+        
+        
         reader.lines()
             .map(line -> line.split(","))
             .forEach(parts -> {
