@@ -29,13 +29,13 @@ public class BoardService {
     }
 
 
-    // Optional para evitar NullPointerException
+    
     public Optional<Cell> findCell(int row, int col) {
         return Optional.ofNullable(board.getCells().get(new Position(row, col)));
 }
 
     // ----MÉTODOS------
-    // configuração inicial do tabuleiro
+    
     public void loadInitialSetup(List<Cell> fixedCells) {
         resetBoard();
         Map<Position, Cell> cells = board.getCells(); // obtém o mapa de células do tabuleiro
@@ -48,7 +48,7 @@ public class BoardService {
         });
     }
 
-    // método para adicionar uma célula ao tabuleiro
+    //-----
     public void addCell(Cell cell) {
         if (cell.getValue() < 1 || cell.getValue() > 9)
             throw new InvalidMoveException("Número inválido. Deve ser de 1 a 9.");
@@ -72,7 +72,7 @@ public class BoardService {
         board.getCells().put(position, cell);
     }
 
-    // método para remover uma célula do tabuleiro
+    // -----
     public void removeCellAt(int row, int col) {
         Position position = new Position(row, col);
         Cell cell = board.getCells().get(position);
@@ -85,19 +85,19 @@ public class BoardService {
         board.getCells().remove(position);
     }
 
-    // método para remover entradas do usuário
+    //-----
     public void clearUserInputs() {
         board.getCells().values().removeIf(cell -> !cell.isFixedByGame()); 
     }
 
-
+    // configuração inicial, apenas para esta classe
     private void resetBoard() { 
-        board.getCells().clear(); // limpa o tabuleiro, (configuração inicial, apenas para esta classe)
+        board.getCells().clear(); 
     }
 
     
 
-    // Métodos para verificar conflitos
+    // -----
     private String isConflictingWithOthers(Cell currentCell, List<Cell> otherCells) {
     return otherCells.stream() 
             .filter(otherCell -> currentCell != otherCell && currentCell.getValue() == otherCell.getValue()) // Não compara com a própria célula, e considera apenas células com o mesmo valor
@@ -112,7 +112,7 @@ public class BoardService {
                     currentCell.getCol() / 3 == otherCell.getCol() / 3)
                     return "Número repetido no mesmo bloco 3x3.";
                 
-                return null; // se não houver conflitos
+                return null; // sem conflitos
             })
             .filter(message -> message != null) // filtra mensagens não nulas
             .findFirst() // retorna a primeira mensagem de conflito encontrada
@@ -128,7 +128,7 @@ public class BoardService {
                 .anyMatch(currentCell -> isConflictingWithOthers(currentCell, filledCells) != null); 
 }
 
-    // Salvar jogo
+    // ----
     public void saveGameFile(String filePath) {
     try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
         
@@ -148,7 +148,7 @@ public class BoardService {
     }
 }
 
-    // Carregar jogo
+    // -----
     public void loadGameFile(String filePath) {
     resetBoard();
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -181,32 +181,30 @@ public class BoardService {
 }
 
 
-
-
-    // Método para imprimir
+    // ---- Jogo via termianal
     public void printBoard(){
         String[] values = java.util.stream.IntStream.range(0, Board.BOARD_SIZE) // início 0, final 81 (9x9)
 
-            // mapeia cada linha e coluna do tabuleiro
             .mapToObj(i -> {
-                int row = i / 9; // Calcula a linha (0 a 8)
-                int col = i % 9; // Calcula a coluna (0 a 8); % para reiniciar a contagem de colunas após 9 
+                int row = i / 9; // linha (0 a 8)
+                int col = i % 9; // coluna (0 a 8)
                 
                 Optional<Cell> cell = findCell(row, col); // Busca a célula na posição (linha, coluna)
                 
-                if (cell.isPresent()) { // Verifica se a célula existe
-                Cell c = cell.get();     //
-                if (c.getValue() == 0) {  // Se o valor da célula for 0, retorna um espaço em branco
+                if (cell.isPresent()) { 
+                Cell c = cell.get();     
+                if (c.getValue() == 0) {  
                     return " ";
-                    }
-                    if (c.isFixedByGame()) {  // Se a célula é fixa, retorna o valor em verde
+                    
+                }
+                    if (c.isFixedByGame()) {  
                         return AnsiColors.GREEN + c.getValue() + AnsiColors.RESET;
                     } else {
                         return String.valueOf(c.getValue()); // Se a célula não é fixa, retorna o valor normal
                     }
             } 
             else {
-                return " "; // Se a célula não existe, retorna um espaço em branco
+                return " "; 
             }
         })
             .toArray(size -> new String[size]); // Converte o IntStream em um array de Strings 

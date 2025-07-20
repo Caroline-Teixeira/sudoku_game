@@ -9,7 +9,7 @@ import br.com.sudoku.service.SudokuGameService;
 
 public class BoardGrid extends JPanel {
 
-    private final JButton[][] cells; // para matriz
+    private final JButton[][] cells; // matriz
     private final SudokuGameService gameService;
     private boolean gameStarted = false; // Flag para indicar se o jogo foi iniciado
 
@@ -133,7 +133,7 @@ public class BoardGrid extends JPanel {
             cells[i / 9][i % 9].setEnabled(gameStarted);
         }
            
-    // Verifica se o jogo está completo e exibe o pop-up de vitória
+    // Pop-up de vitória
         if (gameService.getStatusNow() == br.com.sudoku.model.GameStatus.COMPLETO) {
             JOptionPane.showMessageDialog(this, "Você finalizou o jogo, parabéns!", "Vitória", JOptionPane.INFORMATION_MESSAGE);
         }

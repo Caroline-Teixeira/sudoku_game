@@ -12,6 +12,7 @@ import br.com.sudoku.model.Cell;
 import br.com.sudoku.model.Position;
 
 public class SudokuSolver {
+    // Métodos pra gerar tabuleiro aleatório
 
    private final Map<Position, Cell> cells;
 
@@ -20,40 +21,35 @@ public class SudokuSolver {
    }
    
 
-
-   // Métodos pra gerar tabuleiro aleatório
-
    // Método recursivo para resolver o Sudoku
    private boolean solve(int row, int col) {
-        // Condição de parada: se chegou na linha 9, terminou com sucesso
+        
         if (row == 9) {
             return true;
         }
         
-        // Calcula próxima posição
+        // próxima posição
         int nextRow;
         int nextCol;
         
         if (col == 8) {
-            // Se está na última coluna, vai para próxima linha, primeira coluna
             nextRow = row + 1;
             nextCol = 0;
         } else {
-            // Senão, continua na mesma linha, próxima coluna
+            
             nextRow = row;
             nextCol = col + 1;
         }
         
-        // Gera lista de números de 1 a 9 embaralhados (para randomizar o tabuleiro)
+        // para randomizar o tabuleiro
         List<Integer> numbers = IntStream.rangeClosed(1, 9)
-                .boxed() // Cria um stream de números de 1 a 9
+                .boxed() // stream de números de 1 a 9
                 .collect(Collectors.toList());
         Collections.shuffle(numbers); // Embaralhar
         
         // Tenta cada número na posição atual
         for (int num : numbers) {
             if (isSafeToAdd(row, col, num)) {
-                // Número é válido, coloca na posição
                 cells.put(new Position(row, col), new Cell(row, col, num, true));
                 
                 // Chama recursivamente para próxima posição
@@ -72,7 +68,7 @@ public class SudokuSolver {
     }
 
 
-    // Método para verificar se é seguro adicionar um número na posição (row, col)
+    // ----
    private boolean isSafeToAdd(int row, int col, int num) {
     return cells.values().stream().noneMatch(cell ->
                 (cell.getRow() == row && cell.getValue() == num) ||
@@ -86,9 +82,9 @@ public class SudokuSolver {
 
 
    public Map <Position, Cell> generateCompleteBoard() {
-    cells.clear(); // Limpa o mapa de células antes de gerar um novo tabuleiro
-    solve(0, 0); // Inicia a resolução do Sudoku a partir da posição (0, 0)
-    return new HashMap<>(cells); // Retorna uma cópia do mapa de células preenchidas
+    cells.clear(); 
+    solve(0, 0); // resolução começa posição (0, 0)
+    return new HashMap<>(cells); // Retorna uma cópia 
 }
 
 // depuração (dev)

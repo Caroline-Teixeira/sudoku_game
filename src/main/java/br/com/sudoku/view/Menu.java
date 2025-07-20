@@ -17,8 +17,6 @@ public class Menu {
     private final SudokuGameService service;
     private final Scanner scanner;
     
-    
-    // Construtor
     public Menu() {
         this.service = new SudokuGameService(new SudokuGame());
         this.scanner = new Scanner(System.in);
@@ -74,7 +72,7 @@ public class Menu {
             }
         }
     }
-    // Início
+    // ---
     private void startGame(){
         List<Cell> initialCells = new ArrayList<>();
         initialCells.add(new Cell (0,0,5, true));
@@ -87,7 +85,7 @@ public class Menu {
 
     }
 
-    // nova célula
+    // ---
     private void addCell() {
         try {
             System.out.print("Digite uma linha (0-8): ");
@@ -117,7 +115,7 @@ public class Menu {
         }
     }
 
-    // remover célula
+    // ---
     private void removeCell(){
         try{
             System.out.print("Digite uma linha (0-8): ");
@@ -144,7 +142,7 @@ public class Menu {
         
     }
 
-    // remover entradas do usuário
+    // ---
     private void clearUserInputs(){
         service.clearUserInputs();
         ConsolePrinter.printWarning("Tabuleiro limpo.");
@@ -152,7 +150,7 @@ public class Menu {
 
     }
 
-    // imprime o tabuleiro
+    // ---
     private void printGame() {
         System.out.println(" ");
         service.printGame();

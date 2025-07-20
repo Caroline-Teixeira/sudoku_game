@@ -1,7 +1,7 @@
 package br.com.sudoku.util;
 
 public class BoardTemplate {
-
+      // jogo no console
     private BoardTemplate() {}
 
     public final static String BOARD_TEMPLATE =

@@ -5,6 +5,7 @@ import java.awt.*;
 import br.com.sudoku.core.DifficultyLevel;
 
 public class StatusBar extends JLabel implements GameStatusListener {
+    
     public StatusBar() {
         super("Status: Não iniciado | Dificuldade: Não definida");
         setFont(new Font("Arial", Font.PLAIN, 18));

@@ -15,13 +15,13 @@ public class SudokuGameService {
 
   private final SudokuGame game;
   private final BoardService boardService;
-  private GameStatusListener gameListener; //para informar a interface
+  private GameStatusListener gameListener; // para interface listener
 
 
   // Construtor
   public SudokuGameService(SudokuGame game) {
     this.game = game;
-    this.boardService = new BoardService(game.getBoard()); // Inicializa o serviço de tabuleiro
+    this.boardService = new BoardService(game.getBoard()); 
   }
 
 
@@ -31,24 +31,24 @@ public class SudokuGameService {
     }
 
 
-  // Método para iniciar o jogo
+  // ----
   public void startGame(List<Cell> initialCells) {
     boardService.loadInitialSetup(initialCells); // método do board
-    game.setStatus(GameStatus.INCOMPLETO); // jogo iniciado, mas incompleto
+    game.setStatus(GameStatus.INCOMPLETO); 
   }
 
-  // para ver o staus atual do jogo (read)
+  // read apenas
   public GameStatus getStatusNow() {
     return game.getStatus();
   }
 
-  // Método para atualizar o status
+  // ---
   private void updateGameStatus() {
-    boolean hasConflicts = boardService.hasConflict(); // invoca o método de conflito do BoardService
+    boolean hasConflicts = boardService.hasConflict(); // do BoardService
 
     Map<Position, Cell> cells = game.getBoard().getCells(); // obtém as células do tabuleiro
 
-    // Usar long se o tamanho do tabuleiro aumentar
+    // * Usar long se o tamanho do tabuleiro aumentar
     int filledCells = (int) cells
       .values()
       .stream() // filtra as células preenchidas e conta
@@ -74,30 +74,30 @@ public class SudokuGameService {
         }
     }
 
-  // Método para adicionar uma célula
+  // ---
   public void addCell(Cell cell) {
     boardService.addCell(cell);
     updateGameStatus();
   }
 
-  // Método para remover célula
+  // ----
   public void removeCell(int row, int col) {
     boardService.removeCellAt(row, col);
     updateGameStatus();
   }
 
-  // Método para limpar jogadas
+  // ----
   public void clearUserInputs() {
     boardService.clearUserInputs();
     updateGameStatus();
   }
 
-  // Método para salvar o jogo
+  // ----
   public void saveGame(String filePath) {
     boardService.saveGameFile(filePath);
 }
 
-  // Método para carregar o jogo
+  // ---
   public void loadGame(String filePath) {
     boardService.loadGameFile(filePath);
     updateGameStatus(); // Atualiza o status após carregar o jogo

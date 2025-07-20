@@ -59,7 +59,7 @@ public class ControlPanel extends JPanel {
     add(loadButton);
   }
 
-  // Novo jogo - singleton
+  // Novo jogo - singleton config
   private void startNewGame() {
     String[] options = { "Fácil", "Médio", "Difícil" };
     int choice = JOptionPane.showOptionDialog(
@@ -103,13 +103,13 @@ public class ControlPanel extends JPanel {
     solver.printBoardToConsole();
   }
 
-  // Limpar o tabuleiro
+  // -----
   private void clearBoard() {
     gameService.clearUserInputs();
     boardGrid.updateBoard();
   }
 
-  // salvar jogo
+  // ----
   private void saveGame() {
     JFileChooser fileChooser = new JFileChooser();
     int option = fileChooser.showSaveDialog(this);
@@ -130,7 +130,7 @@ public class ControlPanel extends JPanel {
     }
   }
 
-  // carregar jogo
+  // ----
   private void loadGame() {
     JFileChooser fileChooser = new JFileChooser();
     int option = fileChooser.showOpenDialog(this);
@@ -151,13 +151,5 @@ public class ControlPanel extends JPanel {
       }
     }
   }
-  // Método para iniciar um novo jogo - debbug inicial
-  /*private void startNewGame() {
-        java.util.List<Cell> initialCells = new ArrayList<>();
-        initialCells.add(new Cell(0, 0, 5, true));
-        initialCells.add(new Cell(0, 1, 3, true));
-        initialCells.add(new Cell(1, 0, 6, true));
-        gameService.startGame(initialCells);
-        boardGrid.updateBoard();
-    }*/
+  
 }
