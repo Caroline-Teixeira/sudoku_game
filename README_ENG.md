@@ -2,7 +2,7 @@
 
 ![Made with Java](https://img.shields.io/badge/Made%20with-Java-orange?style=for-the-badge&logo=java) ![Swing GUI](https://img.shields.io/badge/Swing-Graphical%20Interface-blueviolet?style=for-the-badge) ![Maven](https://img.shields.io/badge/Maven-Build%20Tool-important?style=for-the-badge&logo=apachemaven)
 
-<a href="https://github.com/Caroline-Teixeira/sudoku_game/blob/main/README.md">
+<a href="https://github.com/Caroline-Teixeira/sudoku_game/blob/sudokuPatterns/README.md">
 <img src="https://raw.githubusercontent.com/yammadev/flag-icons/refs/heads/master/png/BR%402x.png" alt="Portuguese" ></a>
 
 ## 📖 Description
