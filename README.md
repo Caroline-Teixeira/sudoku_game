@@ -5,7 +5,7 @@
 ![Swing GUI](https://img.shields.io/badge/Swing-Interface%20Gr%C3%A1fica-blueviolet?style=for-the-badge)
 ![Maven](https://img.shields.io/badge/Maven-Build%20Tool-important?style=for-the-badge&logo=apachemaven)
 
-<a href="https://github.com/Caroline-Teixeira/sudoku_game/blob/main/README_ENG.md"><img src="https://raw.githubusercontent.com/yammadev/flag-icons/refs/heads/master/png/US%402x.png" alt="Inglês" ></a>
+<a href="https://github.com/Caroline-Teixeira/sudoku_game/blob/sudokuPatterns/README_ENG.md"><img src="https://raw.githubusercontent.com/yammadev/flag-icons/refs/heads/master/png/US%402x.png" alt="Inglês" ></a>
 
 ## 📖 Descrição
 
