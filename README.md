@@ -42,9 +42,10 @@ Para entender a lógica matemática acesse o arquivo
 │           └── br/
 │               └── com/
 │                   └── sudoku/
+│                       ├── core/
 │                       ├── gui/
 │                       ├── model/
-│                       ├── service/
+│                       ├── service/strategy
 │                       ├── util/
 │                       └── view/
 └── target/
@@ -86,15 +87,16 @@ java -jar target/SudokuGame-1.0-SNAPSHOT.jar
 ## 📖 Explicação das Principais Classes e Pacotes
 
 **Pacotes**
+- `core` → Contém as classes de configuração do jogo (dificuldades apenas)
 - `gui` → Contém as classes da interface gráfica do jogo
 - `model` → Classes com os respectivos atributos, tratamento de erros e regras pra posição de células
-- `service` → Contém a regras do négocio, como funciona o tabuleiro e status do jogo
+- `service` → Contém a regras do négocio, como funciona o tabuleiro, status do jogo e as estratégias de dificuldade
 - `util` → Template de tabuleiro, gerador de tabuleiro (SudokuSolver) e esquema de cores
 - `view` → Contém a classe Menu, que roda a versão protótipo do jogo no Main.
 
 
 **Classes**
-- `SudokuSolver` → Algoritmo de geração automática de tabuleiros válidos
+- `SudokuSolver` → Algoritmo de geração automática de tabuleiros válidos, para gerar as dificuldades
 - `SudokuGameService` → Regras de negócio e controle do jogo
 - `BoardService` → Manipulação e controle das células e tabuleiros
 - `SudokuWindow` → Janela principal do jogo (GUI)
@@ -103,12 +105,24 @@ java -jar target/SudokuGame-1.0-SNAPSHOT.jar
 - `ConsolePrinter` → Imprime o tabuleiro no console (debug)
 - `BoardTemplate` → Template para tabuleiros fixos ou personalizados
 
+## 🔁 Padrões de Projeto
+Este projeto utiliza alguns dos principais Design Patterns (Padrões de Projeto) para manter o código limpo, modular e de fácil manutenção:
+
+- ✅ Singleton – `ConfigurationManager`: Garante que apenas uma instância global do gerenciador de configuração (como o nível de dificuldade do jogo) seja criada durante a execução.
+
+- ✅ Observer – `StatusBar`: Implementa a interface GameStatusListener e "observa" quando o status do jogo muda, atualizando a interface automaticamente.
+
+- ✅ Strategy – `DifficultyStrategy`: Define diferentes estratégias de dificuldade (fácil, médio, difícil), que podem ser aplicadas dinamicamente sem alterar a lógica principal do jogo.
+<br>
+*O jogo seleciona a estratégia apropriada com base no nível definido no ConfigurationManager.*
+
+
 ## 📌 Dicas para Melhorar ou Expandir
 
-- 🐱 Implementar tema visual personalizado para o Swing
+- 🐱 Implementar tema visual personalizado para o Swing ou JavaFX
 - 💾 Criar histórico de jogos salvos
-- 🎮 Implementar níveis de dificuldades
-- 🖥️ Adicionar testes unitários com JUnit
+- 🎮 Implementar outros níveis de dificuldades
+- 🖥️ Adicionar testes unitários com JUnit e refatorar o código existente.
 
 ## 📄 Licença
 
